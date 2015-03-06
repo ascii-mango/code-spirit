@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--dependency injection for jersey REST services-->
+    <context:component-scan base-package="com.spirit.app.server.api" />
+
+
+    <!--create some nodes running on localhost at diff ports-->
+    <bean id="node1" class="com.spirit.app.server.core.Node">
+        <constructor-arg name="id" value="0"/>
+        <constructor-arg name="ip" value="127.0.0.1"/>
+        <constructor-arg name="port" value="7000"/>
+    </bean>
+    <bean id="node2" class="com.spirit.app.server.core.Node">
+        <constructor-arg name="id" value="200"/>
+        <constructor-arg name="ip" value="127.0.0.1"/>
+        <constructor-arg name="port" value="7001"/>
+    </bean>
+    <bean id="node3" class="com.spirit.app.server.core.Node">
+        <constructor-arg name="id" value="400"/>
+        <constructor-arg name="ip" value="127.0.0.1"/>
+        <constructor-arg name="port" value="7002"/>
+    </bean>
+    <bean id="node4" class="com.spirit.app.server.core.Node">
+        <constructor-arg name="id" value="600"/>
+        <constructor-arg name="ip" value="127.0.0.1"/>
+        <constructor-arg name="port" value="7003"/>
+    </bean>
+    <bean id="node5" class="com.spirit.app.server.core.Node">
+        <constructor-arg name="id" value="800"/>
+        <constructor-arg name="ip" value="127.0.0.1"/>
+        <constructor-arg name="port" value="7004"/>
+    </bean>
+
+    <!--Create a ring of nodes/circular linked list nodes are aware of each other-->
+    <bean id="dhtRing" class="com.spirit.app.server.core.CLinkedList"/>
+
+    <!--Add the above created nodes to the ring and use manager for dependency injection and node related operations-->
+    <bean id="nodeManager" class="com.spirit.app.server.manager.NodeManagerImpl" init-method="initialize">
+        <constructor-arg name="dhtRing" ref="dhtRing"/>
+        <constructor-arg name="nodeList">
+            <list>
+                <ref bean="node1"/>
+                <ref bean="node2"/>
+                <ref bean="node3"/>
+                <ref bean="node4"/>
+                <ref bean="node5"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

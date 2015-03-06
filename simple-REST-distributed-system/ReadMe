@@ -1,0 +1,50 @@
+Running the project
+-----------------------------------------------------------------------
+
+1. The project is a maven web project and use maven to retrieve dependencies
+
+2. Maven jetty plugin is added and use it to run the project
+
+3. Spring is used for dependency injection
+
+4. Jersey is used to provide REST interface
+
+
+
+Details
+-----------------------------------------------------------------------
+
+1. A ring of distributed nodes is created on startup (nodeid and ports configured in application-context.xml)
+
+Nodes with id (0,200,400,600,800) are created at start up
+
+
+2.To view details of the ring use service (http://localhost:8080/simple-ds/api/nodeService/ringView)
+
+
+3.To add key value to a node use the following service
+
+http://localhost:8080/simple-ds/api/nodeService/store/{nodeId}/{key}/{value}
+
+e.g http://localhost:8080/simple-ds/api/nodeService/store/200/250/testvalue
+
+- nodeId must be a valid node that exist in the ring
+
+- key is an int
+
+- value is a string
+
+
+4. To lookup key value use the following service
+
+http://localhost:8080/simple-ds/api/nodeService/lookup/{startNode}/{key}
+
+e.g http://localhost:8080/simple-ds/api/nodeService/lookup/200/250
+
+- startNode id int must be a valid node from where to start search
+
+- key int for which to look the value
+
+
+5. Doc and comments are added to code where required
+
